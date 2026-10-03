@@ -1,0 +1,2 @@
+order_id,subscription_name,subscription_guid,environment,account,status,created_at
+SAMPLE-DELETE-ME,Nimbus Cloud - Sample Customer PRD - 00000000,00000000-0000-4000-a000-000000000000,Production,cloud-eu@nimbus-cloud.example,sample,2026-10-01T09:06:00.000Z

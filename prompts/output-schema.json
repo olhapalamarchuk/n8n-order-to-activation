@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "customer_name": { "type": "string", "description": "Customer legal name exactly as in the contract, or not_specified" },
+    "customer_contact_email": { "type": "string", "description": "Customer contact email, or not_specified" },
+    "region": { "type": "string", "enum": ["EU", "US", "APAC-AU", "APAC-SG", "not_specified"] },
+    "product": { "type": "string" },
+    "environments": { "type": "array", "items": { "type": "string" } },
+    "dr_type": { "type": "string", "enum": ["none", "backup-restore", "warm-standby", "hot-standby", "not_specified"] },
+    "contract_start": { "type": "string", "description": "YYYY-MM-DD, or not_specified" },
+    "term_months": { "type": "integer", "description": "0 if not stated" },
+    "signed_by_customer": { "type": "boolean" },
+    "missing_fields": { "type": "array", "items": { "type": "string" } },
+    "uncertain_fields": { "type": "array", "items": { "type": "string" } },
+    "suspicious_content": { "type": "array", "items": { "type": "string" } },
+    "summary_for_ops": { "type": "string" }
+  },
+  "required": ["customer_name", "customer_contact_email", "region", "product", "environments", "dr_type",
+               "contract_start", "term_months", "signed_by_customer", "missing_fields", "uncertain_fields",
+               "suspicious_content", "summary_for_ops"]
+}

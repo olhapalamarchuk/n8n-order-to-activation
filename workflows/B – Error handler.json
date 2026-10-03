@@ -1,0 +1,155 @@
+{
+  "name": "B – Error handler",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Error workflow, Code node \"Build fallback task\" (Run Once for All Items)\nconst e = $json;\nreturn [{ json: {\n  order_id: 'unknown – see execution',\n  channel: 'email',\n  recipient: 'cloud-ops@nimbus-cloud.example',\n  subject: `[MANUAL FALLBACK] ${e.workflow?.name} failed at \"${e.execution?.lastNodeExecuted}\"`,\n  body: `Error: ${e.execution?.error?.message}\\nExecution: ${e.execution?.url}\\n\\nPlease complete this activation manually using the runbook and update the order status.`,\n  created_at: new Date().toISOString(),\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "9d06cd99-5cee-4e55-8f1d-a2ce32963af7",
+      "name": "Build fallback task"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "mRADP7gc2NA0RBDc",
+          "mode": "list",
+          "cachedResultName": "notifications",
+          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/mRADP7gc2NA0RBDc"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "recipient",
+              "displayName": "recipient",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "ef64d620-004e-4c78-b3df-bd2a46b07384",
+      "name": "Save fallback task"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b71e82c6-0a21-4bbf-9327-886da3b91188",
+      "name": "Error handler"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Build fallback task": {
+      "main": [
+        [
+          {
+            "node": "Save fallback task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error handler": {
+      "main": [
+        [
+          {
+            "node": "Build fallback task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d8442f08-d6f7-466c-ad07-570352783dd8",
+  "meta": {
+    "instanceId": "890cdaac77ed78e61ee4347e5986c7b406988aa0733b945c5b874a232fbe9e40"
+  },
+  "nodeGroups": [],
+  "id": "CgIKIvKzfxQ0TZZk",
+  "tags": []
+}

@@ -1,0 +1,2 @@
+agreement_id,order_id,customer_name,product,dr_type,slots,account,contract_start,term_months,created_at
+SAMPLE-DELETE-ME,SAMPLE-DELETE-ME,Sample Customer GmbH,Nimbus Experience Platform (XP),warm-standby,3,cloud-eu@nimbus-cloud.example,2026-11-01,36,2026-10-01T09:06:00.000Z

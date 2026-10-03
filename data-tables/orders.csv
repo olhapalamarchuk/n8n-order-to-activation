@@ -1,0 +1,2 @@
+order_id,customer_name,region,product,dr_type,environments_count,status,errors,warnings,sales_email,approved_by,approval_comment,received_at,decided_at,activated_at
+SAMPLE-DELETE-ME,Sample Customer GmbH,EU,Nimbus Experience Platform (XP),warm-standby,3,sample,none,none,sales@nimbus-cloud.example,Sample Approver,sample row,2026-10-01T09:00:00.000Z,2026-10-01T09:05:00.000Z,2026-10-01T09:06:00.000Z

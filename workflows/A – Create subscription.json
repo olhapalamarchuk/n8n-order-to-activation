@@ -1,0 +1,172 @@
+{
+  "name": "A – Create subscription",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Sub-workflow \"Create subscription\", Code node \"Simulate cloud API\" (Run Once for Each Item)\n// Replaces the regional PowerShell scripts / pipelines with one reusable step.\n// In production this would be an HTTP Request node to the cloud provider API.\nconst i = $json;\nif (!i.subscription_name || i.subscription_name.length > 60) {\n  throw new Error(`Invalid subscription name: \"${i.subscription_name}\"`);\n}\n// Test hook: a customer name containing \"FAILTEST\" in the form simulates a cloud API outage\nif ((i.form_customer_name || '').includes('FAILTEST')) {\n  throw new Error('Cloud API timeout while creating subscription (simulated)');\n}\nconst hex = n => Array.from({ length: n }, () => '0123456789abcdef'[Math.floor(Math.random() * 16)]).join('');\nconst guid = `${hex(8)}-${hex(4)}-4${hex(3)}-a${hex(3)}-${hex(12)}`;\nreturn { json: {\n  order_id: i.order_id,\n  subscription_name: i.subscription_name,\n  subscription_guid: guid,\n  environment: i.environment,\n  account: i.account,\n  status: 'created',\n  created_at: new Date().toISOString(),\n} };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "42889f08-575f-4594-aea2-4e471a75ba51",
+      "name": "Simulate cloud API"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cd029fa5-5a52-4d04-8a72-ecec517b55c2",
+      "name": "A – Create subscription"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "1ExZF2TtbYzqt8sW",
+          "mode": "list",
+          "cachedResultName": "subscriptions",
+          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/1ExZF2TtbYzqt8sW"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "subscription_name",
+              "displayName": "subscription_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "subscription_guid",
+              "displayName": "subscription_guid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "environment",
+              "displayName": "environment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "account",
+              "displayName": "account",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "93f3b43c-0180-44f6-a4a9-6d3cc18399a9",
+      "name": "Save subscription"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "A – Create subscription": {
+      "main": [
+        [
+          {
+            "node": "Simulate cloud API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulate cloud API": {
+      "main": [
+        [
+          {
+            "node": "Save subscription",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "CgIKIvKzfxQ0TZZk",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "85e46a5d-a47e-4f84-a62f-80037045b596",
+  "meta": {
+    "instanceId": "890cdaac77ed78e61ee4347e5986c7b406988aa0733b945c5b874a232fbe9e40"
+  },
+  "nodeGroups": [],
+  "id": "RiLn6SW07j6FvSXn",
+  "tags": []
+}

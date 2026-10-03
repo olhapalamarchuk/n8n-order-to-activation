@@ -1,0 +1,2 @@
+order_id,channel,recipient,subject,body,created_at
+SAMPLE-DELETE-ME,email,sales@nimbus-cloud.example,Sample subject,Sample body,2026-10-01T09:06:00.000Z
