@@ -1,8 +1,17 @@
 // n8n Code node "Build notifications" (Run Once for All Items)
-// Input: the subscriptions returned by the sub-workflow (one item each).
+// Names come from "One item per subscription" (always complete),
+// GUIDs from the sub-workflow results.
 const o = $('Validate order').first().json;
 const approval = $('Wait for Cloud Ops approval').first().json;
-const subs = $input.all().map(x => x.json);
+
+const planned = $('One item per subscription').all().map(i => i.json);
+const created = $input.all().map(i => i.json);
+const subs = planned.map((p, k) => ({
+  environment: p.environment,
+  subscription_name: p.subscription_name,
+  subscription_guid: (created[k] && created[k].subscription_guid) || 'see subscriptions table',
+}));
+
 const list = subs.map(s => `  - ${s.environment}: ${s.subscription_name} (${s.subscription_guid})`).join('\n');
 const now = new Date().toISOString();
 const n = (recipient, subject, body) => ({ json: { order_id: o.order_id, channel: 'email', recipient, subject, body, created_at: now } });

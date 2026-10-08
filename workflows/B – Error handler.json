@@ -25,7 +25,14 @@
         },
         "columns": {
           "mappingMode": "defineBelow",
-          "value": {},
+          "value": {
+            "order_id": "={{ $json.order_id }}",
+            "channel": "={{ $json.channel }}",
+            "recipient": "={{ $json.recipient }}",
+            "subject": "={{ $json.subject }}",
+            "body": "={{ $json.body }}",
+            "created_at": "={{ $json.created_at }}"
+          },
           "matchingColumns": [],
           "schema": [
             {
@@ -145,7 +152,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "d8442f08-d6f7-466c-ad07-570352783dd8",
+  "versionId": "709bbd62-7c9b-407f-b196-c5782a19161f",
   "meta": {
     "instanceId": "890cdaac77ed78e61ee4347e5986c7b406988aa0733b945c5b874a232fbe9e40"
   },

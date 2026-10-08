@@ -1,8 +1,8 @@
 # Order-to-Activation Automation (n8n + Gemini, built with Codex)
 
-**Status: work in progress.** The intake, AI extraction, validation rules and human approval are built and tested.
-The activation steps (billing agreement, subscriptions, notifications) are built and are being debugged end to end.
-See [Current status](#current-status) for details.
+**Status: working prototype.** The full flow runs end to end: contract upload, AI extraction, rule-based validation,
+human approval, billing agreement, subscriptions, notifications, audit log and error handling.
+See [Test results](#test-results) and [Known limitations](#known-limitations).
 
 An n8n prototype that redesigns a manual, multi-team cloud order activation process into one upload and one approval.
 Based on an order activation process I designed and owned in a previous role, rebuilt with a fictional company
@@ -31,6 +31,8 @@ flowchart LR
   E -- approve --> F[Billing agreement]
   F --> G[Create subscriptions<br/>reusable sub-workflow]
   G --> H[Notify customer, Billing,<br/>Sales, Order Processing]
+  E -. every decision .-> L[(Order events log)]
+  H -.-> L
   G -. failure .-> I[Manual fallback task]
 ```
 
@@ -42,54 +44,48 @@ flowchart LR
   so the model can be swapped without changing the process.
 - Cloud Ops approves every activation, with the AI summary and all warnings shown on the approval form.
 - The contract is treated as data, not instructions (test case 5 contains an injected instruction).
-- Transient AI errors are retried; failures trigger an error workflow that creates a manual fallback task.
-- Every stage is timestamped in an orders log for measurement.
+- **Append-only audit trail:** orders are stored as received; every status change (approved, rejected, activated)
+  is a new row in an `order_events` log with actor, comment and timestamp. Nothing is overwritten.
+- Transient errors are retried; a failure after retries creates a manual fallback task for Cloud Ops.
 
-## Current status
+## Test results
 
-| Part | Status |
-|---|---|
-| Sales intake form with PDF upload | ✅ Working |
-| PDF text extraction | ✅ Working |
-| AI extraction with structured output (Gemini free tier) | ✅ Working, tested on 5 contracts |
-| Validation rules (completeness, consistency, region account, 60-char names) | ✅ Working, unit-tested |
-| Order log and approval request with approval link | ✅ Working |
-| Cloud Ops approval form (human in the loop) | ✅ Working |
-| Error workflow (manual fallback task) | ✅ Triggered and verified |
-| Routing of invalid orders to the rejection branch | 🔧 Being fixed (condition configuration) |
-| Activation path: billing agreement, subscriptions, notifications | 🔧 Built, end-to-end run being debugged (order status update) |
-| Metrics from the orders log | ⏳ Next, after the end-to-end run |
-
-## What testing has shown so far
-
-- **The AI extraction is accurate on clean contracts:** customer, region mapping (e.g. "Australia (Sydney)" → APAC-AU),
-  product, environments, DR type, dates and term were extracted correctly.
-- **The rules catch what people miss:** a contract for an Australian customer submitted with region EU was stopped with
-  "Region mismatch"; a long legal name was shortened automatically so all subscription names stay within 60 characters.
-- **An edge case the AI got wrong:** for a contract where the DR option is "to be confirmed", the model returned
-  DR type "none" instead of "not specified". Without that test case, the order could have been activated without
-  disaster recovery. Fix: an explicit prompt rule, with the contract kept as a regression test.
-- **Free-tier reality:** the model occasionally returned HTTP 503 (overloaded); the AI node retries automatically.
-- **Configuration matters as much as the AI:** most issues so far were workflow configuration (branch conditions,
-  field types in the data tables), not the model. Each one is documented and being fixed.
-
-## Test cases
-
-| # | Scenario | Expected |
+| # | Scenario | Result |
 |---|---|---|
-| 1 | Standard EU order, 3 environments | Approval → activated, 3 subscriptions |
-| 2 | Australian customer, long legal name | AU account, names shortened to ≤60 chars |
-| 3 | DR type "to be confirmed" | Rejected: DR type missing |
-| 4 | DR type in form ≠ contract | Rejected: mismatch |
-| 5 | 4 environments + injected instruction | Approval with warnings, no auto-activation |
-| 6 | Simulated cloud API failure | Retries, then manual fallback task |
-| 7 | Cloud Ops rejects | Order closed, Sales notified |
+| 1 | Standard EU order, 3 environments | ✅ Approved → activated, 3 subscriptions, 4 notifications |
+| 2 | Australian customer, long legal name | ✅ AU account, names shortened to 54 characters (activation run: see status below) |
+| 3 | DR type "to be confirmed" | ✅ Rejected before approval (see finding 1) |
+| 4 | DR type in form ≠ contract | ✅ Rejected before approval: "DR type mismatch" |
+| 5 | 4 environments + injected instruction | ✅ Approval form showed the warnings; approved → 4 subscriptions incl. UAT |
+| 6 | Simulated cloud API failure | ✅ Retries, then a manual fallback task with error and execution link; no activation |
+| 7 | Cloud Ops rejects | ⏳ To run |
 
-The five fictional contracts are in `test-contracts/`. The validation rules are unit-tested:
+**Measured in the test run (simulated orders):** approval to activation, including the billing agreement,
+subscriptions and four notifications: **about 0.3 seconds**. Manual touches per order: **2** (upload and approval),
+compared with an estimated ten across five teams in the original process.
 
-```
-node tests/validate-order.test.js
-```
+Validation rules are unit-tested: `node tests/validate-order.test.js`
+
+## What testing taught me
+
+1. **The AI read "to be confirmed" as "none".** For a contract where the DR option was still to be agreed,
+   the model returned DR type "none" instead of "not specified". The order was still stopped by the rules
+   (the form said otherwise), but for the wrong reason, and with matching input it could have been activated
+   without disaster recovery. I added an explicit prompt rule and keep the contract as a regression test.
+2. **Rules caught what people miss:** an Australian contract submitted with region EU was stopped with
+   "Region mismatch"; long legal names were shortened automatically for the 60-character limit.
+3. **Most defects were integration and configuration, not the model:** branch conditions, column types,
+   field mapping between workflows, empty node outputs stopping a branch. Each was found by a test case.
+4. **Design changed because of testing:** updating order rows in place proved unreliable in the data tables,
+   so status changes became an append-only event log, which is also the better audit trail.
+5. **Free-tier reality:** the model occasionally returned HTTP 503 (overloaded); the AI node retries automatically.
+
+## Known limitations
+
+- The manual fallback task does not yet carry the order ID; it links to the failed execution instead.
+- Test case 7 (rejection by Cloud Ops) is built but not yet run in the final version.
+- All external systems are simulated with n8n data tables; emails are written to a notifications table.
+- Free-tier model, fictional data only. Not production-ready by design (see below).
 
 ## Screenshots
 
@@ -99,24 +95,29 @@ node tests/validate-order.test.js
 | Sales form | ![Form](docs/screenshots/02-sales-form.png) |
 | AI extraction output | ![AI output](docs/screenshots/03-ai-output.png) |
 | Validation: shortened names (Australia) | ![Validation](docs/screenshots/04-validation.png) |
-| Cloud Ops approval form | ![Approval](docs/screenshots/05-approval-form.png) |
+| Cloud Ops approval form with warnings | ![Approval](docs/screenshots/05-approval-form.png) |
 | Orders log | ![Orders](docs/screenshots/06-orders-table.png) |
+| Order events (audit trail) | ![Events](docs/screenshots/07-order-events.png) |
+| Subscriptions created | ![Subscriptions](docs/screenshots/08-subscriptions.png) |
+| Manual fallback task after a failure | ![Fallback](docs/screenshots/09-fallback-task.png) |
 
 ## How to run it
 
 1. Run n8n locally with Docker:
    `docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n`
-2. Create the four data tables from the CSV files in `data-tables/` (orders, billing_agreements, subscriptions, notifications).
+2. Create the five data tables from the CSV files in `data-tables/`
+   (orders, order_events, billing_agreements, subscriptions, notifications) and delete the sample rows.
 3. Import the three workflows from `workflows/` (workflow menu → Import from file): A, B, then C.
 4. Add a Google Gemini API credential (free tier) and select it in the Gemini Chat Model node.
-5. Publish A, B and C, open the form's production URL and upload a contract from `test-contracts/`.
+5. Set B as the error workflow of C, publish A, B and C, open the form's production URL
+   and upload a contract from `test-contracts/`.
 
 ## From prototype to production
 
 | Prototype | Production |
 |---|---|
 | n8n form | CRM event (closed-won with signed agreement) |
-| n8n data tables | ITSM ticket, billing database |
+| n8n data tables | ITSM ticket, billing database, event store |
 | Wait-form approval | Approval in ITSM / Slack / Teams with SLA reminders |
 | Simulated cloud API | Azure / AWS API with a least-privilege service principal |
 | Rules in code | Configuration table owned by Cloud Ops |

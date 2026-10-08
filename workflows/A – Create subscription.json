@@ -39,7 +39,15 @@
         },
         "columns": {
           "mappingMode": "defineBelow",
-          "value": {},
+          "value": {
+            "order_id": "={{ $json.order_id }}",
+            "subscription_name": "={{ $json.subscription_name }}",
+            "subscription_guid": "={{ $json.subscription_guid }}",
+            "environment": "={{ $json.environment }}",
+            "account": "={{ $json.account }}",
+            "status": "={{ $json.status }}",
+            "created_at": "={{ $json.created_at }}"
+          },
           "matchingColumns": [],
           "schema": [
             {
@@ -158,11 +166,10 @@
     "executionOrder": "v1",
     "binaryMode": "separate",
     "timeSavedMode": "fixed",
-    "errorWorkflow": "CgIKIvKzfxQ0TZZk",
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "85e46a5d-a47e-4f84-a62f-80037045b596",
+  "versionId": "9e2994bb-ae66-421a-9f7e-2229e2cfb18f",
   "meta": {
     "instanceId": "890cdaac77ed78e61ee4347e5986c7b406988aa0733b945c5b874a232fbe9e40"
   },

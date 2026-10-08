@@ -196,7 +196,7 @@
           "conditions": [
             {
               "id": "1ae8726f-2a3f-40e8-8063-9a32d862a522",
-              "leftValue": true,
+              "leftValue": "={{ $json.valid }}",
               "rightValue": "",
               "operator": {
                 "type": "boolean",
@@ -890,199 +890,6 @@
     },
     {
       "parameters": {
-        "operation": "update",
-        "dataTableId": {
-          "__rl": true,
-          "value": "3aLZCumclJ2exUBM",
-          "mode": "list",
-          "cachedResultName": "orders",
-          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/3aLZCumclJ2exUBM"
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "order_id",
-              "keyValue": "={{ $('Validate order').first().json.order_id }}"
-            }
-          ]
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "status": "rejected_by_ops",
-            "approved_by": "={{ $json['Approver name'] }}",
-            "approval_comment": "={{ $json.Comment }}",
-            "decided_at": "={{ $now.toISO() }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "order_id",
-              "displayName": "order_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "customer_name",
-              "displayName": "customer_name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "region",
-              "displayName": "region",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "product",
-              "displayName": "product",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "dr_type",
-              "displayName": "dr_type",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "environments_count",
-              "displayName": "environments_count",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "status",
-              "displayName": "status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "errors",
-              "displayName": "errors",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "warnings",
-              "displayName": "warnings",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "sales_email",
-              "displayName": "sales_email",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "approved_by",
-              "displayName": "approved_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "approval_comment",
-              "displayName": "approval_comment",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "received_at",
-              "displayName": "received_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "decided_at",
-              "displayName": "decided_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "activated_at",
-              "displayName": "activated_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.dataTable",
-      "typeVersion": 1.1,
-      "position": [
-        2416,
-        -416
-      ],
-      "id": "316e050b-1cee-43a7-84b9-3e20d6b16d62",
-      "name": "Update order: rejected by Ops"
-    },
-    {
-      "parameters": {
         "dataTableId": {
           "__rl": true,
           "value": "mRADP7gc2NA0RBDc",
@@ -1176,199 +983,6 @@
       ],
       "id": "c54f7a46-5f51-4d47-b33b-a7f37441d2cc",
       "name": "Notify Sales: rejected"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "dataTableId": {
-          "__rl": true,
-          "value": "3aLZCumclJ2exUBM",
-          "mode": "list",
-          "cachedResultName": "orders",
-          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/3aLZCumclJ2exUBM"
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "order_id",
-              "keyValue": "={{ $('Validate order').first().json.order_id }}"
-            }
-          ]
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "status": "activating",
-            "approved_by": "={{ $json['Approver name'] }}",
-            "approval_comment": "={{ $json.Comment }}",
-            "decided_at": "={{ $now.toISO() }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "order_id",
-              "displayName": "order_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "customer_name",
-              "displayName": "customer_name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "region",
-              "displayName": "region",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "product",
-              "displayName": "product",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "dr_type",
-              "displayName": "dr_type",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "environments_count",
-              "displayName": "environments_count",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "status",
-              "displayName": "status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "errors",
-              "displayName": "errors",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "warnings",
-              "displayName": "warnings",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "sales_email",
-              "displayName": "sales_email",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "approved_by",
-              "displayName": "approved_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "approval_comment",
-              "displayName": "approval_comment",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "received_at",
-              "displayName": "received_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": true
-            },
-            {
-              "id": "decided_at",
-              "displayName": "decided_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "activated_at",
-              "displayName": "activated_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.dataTable",
-      "typeVersion": 1.1,
-      "position": [
-        2416,
-        -624
-      ],
-      "id": "0a4f2c7b-cc35-4ed9-9d73-005d20bf4e01",
-      "name": "Update order: activating"
     },
     {
       "parameters": {
@@ -1528,7 +1142,9 @@
           "convertFieldsToString": true
         },
         "mode": "each",
-        "options": {}
+        "options": {
+          "waitForSubWorkflow": true
+        }
       },
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.4,
@@ -1652,25 +1268,35 @@
     },
     {
       "parameters": {
-        "operation": "update",
+        "jsCode": "// n8n Code node \"One item per subscription\" (Run Once for All Items)\nconst o = $('Validate order').first().json;\nconst formName = $('On form submission').first().json['Customer name'];\nreturn o.subscriptions.map(s => ({ json: {\n  order_id: o.order_id,\n  customer_name: o.customer_name,\n  form_customer_name: formName,   // used only by the failure test hook\n  account: o.account,\n  region: o.region,\n  environment: s.environment,\n  env_code: s.env_code,\n  subscription_name: s.subscription_name,\n} }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2832,
+        -624
+      ],
+      "id": "e7000287-50cd-4a01-8f20-5c4b508e9244",
+      "name": "One item per subscription"
+    },
+    {
+      "parameters": {
         "dataTableId": {
           "__rl": true,
-          "value": "3aLZCumclJ2exUBM",
+          "value": "q6h2g7HAoQcKErVx",
           "mode": "list",
-          "cachedResultName": "orders",
-          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/3aLZCumclJ2exUBM"
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "order_id",
-              "keyValue": "={{ $('Validate order').first().json.order_id }}: status = activated, activated_at = {{ $now.toISO() }}"
-            }
-          ]
+          "cachedResultName": "order_events",
+          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/q6h2g7HAoQcKErVx"
         },
         "columns": {
           "mappingMode": "defineBelow",
-          "value": {},
+          "value": {
+            "order_id": "={{ $('Validate order').first().json.order_id }}",
+            "status": "approved",
+            "actor": "={{ $('Wait for Cloud Ops approval').first().json['Approver name'] }}",
+            "comment": "={{ $('Wait for Cloud Ops approval').first().json.Comment }}",
+            "event_at": "={{ $now.toISO() }}"
+          },
           "matchingColumns": [],
           "schema": [
             {
@@ -1680,56 +1306,6 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "customer_name",
-              "displayName": "customer_name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "region",
-              "displayName": "region",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "product",
-              "displayName": "product",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "dr_type",
-              "displayName": "dr_type",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "environments_count",
-              "displayName": "environments_count",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
               "readOnly": false,
               "removed": false
             },
@@ -1744,8 +1320,8 @@
               "removed": false
             },
             {
-              "id": "errors",
-              "displayName": "errors",
+              "id": "actor",
+              "displayName": "actor",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1754,8 +1330,8 @@
               "removed": false
             },
             {
-              "id": "warnings",
-              "displayName": "warnings",
+              "id": "comment",
+              "displayName": "comment",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1764,8 +1340,54 @@
               "removed": false
             },
             {
-              "id": "sales_email",
-              "displayName": "sales_email",
+              "id": "event_at",
+              "displayName": "event_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2432,
+        -736
+      ],
+      "id": "0a4f2c7b-cc35-4ed9-9d73-005d20bf4e01",
+      "name": "Log: approved",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "q6h2g7HAoQcKErVx",
+          "mode": "list",
+          "cachedResultName": "order_events",
+          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/q6h2g7HAoQcKErVx"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "rejected_by_ops",
+            "actor": "={{ $('Wait for Cloud Ops approval').first().json['Approver name'] }}",
+            "comment": "={{ $('Wait for Cloud Ops approval').first().json.Comment }}",
+            "event_at": "={{ $now.toISO() }}",
+            "order_id": "={{ $('Validate order').first().json.order_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1774,8 +1396,8 @@
               "removed": false
             },
             {
-              "id": "approved_by",
-              "displayName": "approved_by",
+              "id": "status",
+              "displayName": "status",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1784,8 +1406,8 @@
               "removed": false
             },
             {
-              "id": "approval_comment",
-              "displayName": "approval_comment",
+              "id": "actor",
+              "displayName": "actor",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1794,32 +1416,108 @@
               "removed": false
             },
             {
-              "id": "received_at",
-              "displayName": "received_at",
+              "id": "comment",
+              "displayName": "comment",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "type": "dateTime",
+              "type": "string",
               "readOnly": false,
               "removed": false
             },
             {
-              "id": "decided_at",
-              "displayName": "decided_at",
+              "id": "event_at",
+              "displayName": "event_at",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "type": "dateTime",
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2416,
+        -416
+      ],
+      "id": "316e050b-1cee-43a7-84b9-3e20d6b16d62",
+      "name": "Log: rejected by Ops",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "q6h2g7HAoQcKErVx",
+          "mode": "list",
+          "cachedResultName": "order_events",
+          "cachedResultUrl": "/projects/51l5dXag7KfxwcSA/datatables/q6h2g7HAoQcKErVx"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $('Validate order').first().json.order_id }}",
+            "status": "activated",
+            "actor": "workflow",
+            "comment": "={{ $('One item per subscription').all().length }} subscriptions created",
+            "event_at": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
               "readOnly": false,
               "removed": false
             },
             {
-              "id": "activated_at",
-              "displayName": "activated_at",
+              "id": "status",
+              "displayName": "status",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "type": "dateTime",
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "actor",
+              "displayName": "actor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "comment",
+              "displayName": "comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "event_at",
+              "displayName": "event_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
               "readOnly": false,
               "removed": false
             }
@@ -1836,21 +1534,9 @@
         -624
       ],
       "id": "01ba776c-18ca-48cf-9e5b-be23565eaf89",
-      "name": "Update order: activated",
-      "executeOnce": true
-    },
-    {
-      "parameters": {
-        "jsCode": "// n8n Code node \"One item per subscription\" (Run Once for All Items)\nconst o = $('Validate order').first().json;\nconst formName = $('On form submission').first().json['Customer name'];\nreturn o.subscriptions.map(s => ({ json: {\n  order_id: o.order_id,\n  customer_name: o.customer_name,\n  form_customer_name: formName,   // used only by the failure test hook\n  account: o.account,\n  region: o.region,\n  environment: s.environment,\n  env_code: s.env_code,\n  subscription_name: s.subscription_name,\n} }));"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2832,
-        -624
-      ],
-      "id": "e7000287-50cd-4a01-8f20-5c4b508e9244",
-      "name": "One item per subscription"
+      "name": "Log: activated",
+      "executeOnce": true,
+      "alwaysOutputData": true
     }
   ],
   "pinData": {},
@@ -2009,25 +1695,19 @@
       "main": [
         [
           {
-            "node": "Update order: activating",
+            "node": "Log: approved",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create billing agreement",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Update order: rejected by Ops",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update order: activating": {
-      "main": [
-        [
-          {
-            "node": "Create billing agreement",
+            "node": "Log: rejected by Ops",
             "type": "main",
             "index": 0
           }
@@ -2071,18 +1751,7 @@
       "main": [
         [
           {
-            "node": "Update order: activated",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update order: rejected by Ops": {
-      "main": [
-        [
-          {
-            "node": "Notify Sales: rejected",
+            "node": "Log: activated",
             "type": "main",
             "index": 0
           }
@@ -2099,6 +1768,22 @@
           }
         ]
       ]
+    },
+    "Log: approved": {
+      "main": [
+        []
+      ]
+    },
+    "Log: rejected by Ops": {
+      "main": [
+        [
+          {
+            "node": "Notify Sales: rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -2110,7 +1795,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "9ace18cb-2216-4380-9a1f-3bfdc7ff52e6",
+  "versionId": "69a0da23-b6ef-4860-abe0-9094d41b60f1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "890cdaac77ed78e61ee4347e5986c7b406988aa0733b945c5b874a232fbe9e40"
