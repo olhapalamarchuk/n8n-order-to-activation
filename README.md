@@ -59,7 +59,7 @@ flowchart LR
 | 4 | DR type in form ≠ contract | ✅ Rejected before approval: "DR type mismatch" |
 | 5 | 4 environments + injected instruction | ✅ Approval form showed the warnings; approved → 4 subscriptions incl. UAT |
 | 6 | Simulated cloud API failure | ✅ Three retries, then one manual fallback task with the error and the execution link; no activation |
-| 7 | Cloud Ops rejects | ⏳ To run |
+| 7 | Cloud Ops rejects | ✅ Rejected with a comment; rejected_by_ops event logged, Sales notified  |
 
 **Measured in the test run (simulated orders):** approval to activation, including the billing agreement,
 subscriptions and four notifications: **about 0.3 seconds**. Manual touches per order: **2** (upload and approval),
