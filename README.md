@@ -103,16 +103,30 @@ docker run --rm -v "${PWD}:/app" -w /app node:lts node tests/validate-order.test
 
 ## Screenshots
 
-| | |
+| Screenshot | |
 |---|---|
 | Main workflow | ![Workflow](docs/screenshots/01-workflow.png) |
-| Sales form | ![Form](docs/screenshots/02-sales-form.png) |
-| AI extraction output | ![AI output](docs/screenshots/03-ai-output.png) |
-| Validation: shortened names (Australia) | ![Validation](docs/screenshots/04-validation.png) |
-| Cloud Ops approval form with warnings | ![Approval](docs/screenshots/05-approval-form.png) |
-| Orders log | ![Orders](docs/screenshots/06-orders-table.png) |
-| Order events (audit trail) | ![Events](docs/screenshots/07-order-events.png) |
+| TC1 – Sales form | ![TC1 Sales form](docs/screenshots/12_Sales%20form.png) |
+| TC1 – Form submitted | ![TC1 Form submitted](docs/screenshots/14_Form%20submitted.png) |
+| TC1 – AI extraction output | ![TC1 AI output](docs/screenshots/15_AI%20Extract%20Order%20output.png) |
+| TC1 – Cloud Ops approval form | ![TC1 Approval](docs/screenshots/13_Approve%20Order%20activation.png) |
+| TC2 – Sales form | ![TC2 Sales form](docs/screenshots/22_Sales%20form.png) |
+| TC2 – Validation: AU account, shortened names | ![TC2 Validation](docs/screenshots/25_Validate%20Order%20output.png) |
+| TC2 – Validation: subscriptions | ![TC2 Validation](docs/screenshots/251_Validate%20Order%20output.png) |
+| TC2 – Approval form | ![TC2 Approval](docs/screenshots/23_Approve%20Order%20activation.png) |
+| TC3 – Sales form | ![TC3 Sales form](docs/screenshots/32_Sales%20form.png) |
+| TC4 – Sales form | ![TC4 Sales form](docs/screenshots/42_Sales%20form.png) |
+| TC4 – Validation: DR type mismatch | ![TC4 Validation](docs/screenshots/45_Validate%20Order%20output.png) |
+| TC4 – Validation: details | ![TC4 Validation](docs/screenshots/451_Validate%20Order%20output.png) |
+| TC5 – Sales form | ![TC5 Sales form](docs/screenshots/52_Sales%20form.png) |
+| TC5 – Approval form with warnings | ![TC5 Approval](docs/screenshots/53_Approve%20Order%20activation.png) |
+| TC6 – Sales form | ![TC6 Sales form](docs/screenshots/62_Sales%20form.png) |
+| TC6 – Approval form | ![TC6 Approval](docs/screenshots/63_Approve%20Order%20activation.png) |
+| TC7 – Sales form | ![TC7 Sales form](docs/screenshots/72_Sales%20form.png) |
+| TC7 – Rejection by Cloud Ops | ![TC7 Rejection](docs/screenshots/73_Approve%20Order%20activation.png) |
+| Order events (audit trail) | ![Order events](docs/screenshots/07-order-events.png) |
 | Subscriptions created | ![Subscriptions](docs/screenshots/08-subscriptions.png) |
+| Notifications | ![Notifications](docs/screenshots/Notifications.png) |
 | Manual fallback task after a failure | ![Fallback](docs/screenshots/09-fallback-task.png) |
 
 ## How to run it
