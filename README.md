@@ -46,25 +46,36 @@ flowchart LR
 - The contract is treated as data, not instructions (test case 5 contains an injected instruction).
 - **Append-only audit trail:** orders are stored as received; every status change (approved, rejected, activated)
   is a new row in an `order_events` log with actor, comment and timestamp. Nothing is overwritten.
-- Transient errors are retried; a failure after retries creates a manual fallback task for Cloud Ops.
+- Transient errors are retried; a failure after retries creates **one** manual fallback task for Cloud Ops.
+  The error workflow is attached to the main workflow only, so retries inside the sub-workflow don't create duplicate alerts.
 
 ## Test results
 
 | # | Scenario | Result |
 |---|---|---|
 | 1 | Standard EU order, 3 environments | ✅ Approved → activated, 3 subscriptions, 4 notifications |
-| 2 | Australian customer, long legal name | ✅ AU account, names shortened to 54 characters (activation run: see status below) |
+| 2 | Australian customer, long legal name | ✅ AU account selected, subscription names shortened to 54 characters |
 | 3 | DR type "to be confirmed" | ✅ Rejected before approval (see finding 1) |
 | 4 | DR type in form ≠ contract | ✅ Rejected before approval: "DR type mismatch" |
 | 5 | 4 environments + injected instruction | ✅ Approval form showed the warnings; approved → 4 subscriptions incl. UAT |
-| 6 | Simulated cloud API failure | ✅ Retries, then a manual fallback task with error and execution link; no activation |
+| 6 | Simulated cloud API failure | ✅ Three retries, then one manual fallback task with the error and the execution link; no activation |
 | 7 | Cloud Ops rejects | ⏳ To run |
 
 **Measured in the test run (simulated orders):** approval to activation, including the billing agreement,
 subscriptions and four notifications: **about 0.3 seconds**. Manual touches per order: **2** (upload and approval),
 compared with an estimated ten across five teams in the original process.
 
-Validation rules are unit-tested: `node tests/validate-order.test.js`
+Validation rules are unit-tested (10 tests):
+
+```
+node tests/validate-order.test.js
+```
+
+Without Node.js installed, run the same test in Docker:
+
+```
+docker run --rm -v "${PWD}:/app" -w /app node:lts node tests/validate-order.test.js
+```
 
 ## What testing taught me
 
@@ -78,7 +89,10 @@ Validation rules are unit-tested: `node tests/validate-order.test.js`
    field mapping between workflows, empty node outputs stopping a branch. Each was found by a test case.
 4. **Design changed because of testing:** updating order rows in place proved unreliable in the data tables,
    so status changes became an append-only event log, which is also the better audit trail.
-5. **Free-tier reality:** the model occasionally returned HTTP 503 (overloaded); the AI node retries automatically.
+5. **Alerting needs design too:** the first version created four fallback alerts for one failure, one per retry
+   of the sub-workflow plus one for the main workflow. Attaching the error workflow only to the main workflow
+   gives one actionable task per failed order.
+6. **Free-tier reality:** the model occasionally returned HTTP 503 (overloaded); the AI node retries automatically.
 
 ## Known limitations
 
@@ -107,10 +121,15 @@ Validation rules are unit-tested: `node tests/validate-order.test.js`
    `docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n`
 2. Create the five data tables from the CSV files in `data-tables/`
    (orders, order_events, billing_agreements, subscriptions, notifications) and delete the sample rows.
-3. Import the three workflows from `workflows/` (workflow menu → Import from file): A, B, then C.
+3. Import the three workflows from `workflows/` (workflow menu → Import from file) in this order:
+   `A-create-subscription.json`, `B-error-handler.json`, `C-order-to-activation.json`.
+   Keep the workflow names, because workflow C calls A by name.
 4. Add a Google Gemini API credential (free tier) and select it in the Gemini Chat Model node.
-5. Set B as the error workflow of C, publish A, B and C, open the form's production URL
-   and upload a contract from `test-contracts/`.
+5. In workflow C, open **… → Settings** and select **B – Error handler** as the error workflow
+   (leave A without an error workflow).
+6. Publish A, B and C (sub-workflows must be published too), open the form's production URL
+   and upload a contract from `test-contracts/`. A valid order waits for approval; the approval link
+   is in the `notifications` table.
 
 ## From prototype to production
 
@@ -125,11 +144,13 @@ Validation rules are unit-tested: `node tests/validate-order.test.js`
 
 ## Repository
 
-- `workflows/` exported n8n workflows (A – sub-workflow, B – error handler, C – main workflow)
+- `workflows/` exported n8n workflows:
+  `A-create-subscription.json` (sub-workflow), `B-error-handler.json` (error workflow),
+  `C-order-to-activation.json` (main workflow)
 - `code/` Code node scripts
 - `prompts/` extraction prompt and output schema
 - `test-contracts/` fictional signed agreements
-- `data-tables/` table structures as CSV
+- `data-tables/` table structures as CSV (five tables, each with one sample row to delete after import)
 - `tests/` unit test for the validation rules
 - `docs/screenshots/`
 
